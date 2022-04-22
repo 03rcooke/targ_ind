@@ -1,0 +1,26 @@
+Package: TTR
+Type: Package
+Title: Technical Trading Rules
+Version: 0.24.3
+Author: Joshua Ulrich
+Maintainer: Joshua Ulrich <josh.m.ulrich@gmail.com>
+Imports: xts (>= 0.10-0), zoo, curl
+LinkingTo: xts
+Enhances: quantmod
+Suggests: RUnit
+Description: A collection of over 50 technical indicators for creating
+    technical trading rules. The package also provides fast
+    implementations of common rolling-window functions, and several
+    volatility calculations.
+License: GPL (>= 2)
+URL: https://github.com/joshuaulrich/TTR
+BugReports: https://github.com/joshuaulrich/TTR/issues
+NeedsCompilation: yes
+Packaged: 2021-12-11 21:35:52 UTC; root
+Repository: RSPM
+Date/Publication: 2021-12-12 05:30:02 UTC
+Encoding: UTF-8
+Built: R 4.0.5; x86_64-pc-linux-gnu; 2022-04-15 16:50:24 UTC; unix
+InstallAgent: packrat 0.6.0
+InstallSource: RSPM
+Hash: 63c8a2e70d2caec9205d49cecd1d801c

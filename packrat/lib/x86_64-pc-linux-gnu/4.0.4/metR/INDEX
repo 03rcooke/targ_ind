@@ -1,0 +1,62 @@
+Anomaly                 Anomalies
+ConvertLongitude        Converts between longitude conventions
+Derivate                Derivate a discrete variable using finite
+                        differences
+DivideTimeseries        Divides long timeseries for better reading
+EOF                     Empirical Orthogonal Function
+EPflux                  Computes Eliassen-Palm fluxes.
+FitLm                   Fast estimates of linear regression
+GeostrophicWind         Calculate geostrophic winds
+GetSMNData              Get Meteorological data
+GetTopography           Get topographic data
+Impute2D                Impute missing values by linear or constant
+                        interpolation
+ImputeEOF               Impute missing values
+Interpolate             Bilinear interpolation
+JumpBy                  Skip observations
+Mag                     Magnitude and angle of a vector
+MakeBreaks              Functions for making breaks
+MaskLand                Mask
+Percentile              Percentiles
+ReadNetCDF              Read NetCDF files.
+Trajectory              Compute trajectories
+WaveFlux                Calculate wave-activity flux
+WrapCircular            Wrap periodic data to any range
+as.discretised_scale    Create discretised versions of continuous
+                        scales
+as.path                 Interpolates between locations
+coriolis                Effects of the Earth's rotation
+cut.eof                 Remove some principal components.
+denormalise             Denormalise eof matrices
+geom_arrow              Arrows
+geom_contour2           2d contours of a 3d surface
+geom_contour_fill       Filled 2d contours of a 3d surface
+geom_contour_tanaka     Illuminated contours
+geom_label_contour      Label contours
+geom_relief             Relief Shading
+geom_streamline         Streamlines
+geopotential            Geopotential height
+guide_vector            Reference arrow for magnitude scales
+is.cross                Cross pattern
+logic                   Extended logical operators
+map_labels              Label longitude and latitude
+metR                    metR: Tools for Easier Analysis of
+                        Meteorological Fields
+reverselog_trans        Reverse log transform
+sa_pressure             Standard atmosphere
+scale_divergent         Divergent colour scales
+scale_fill_discretised
+                        Discretised scale
+scale_label_colour_continuous
+                        Scales for contour label aesthetics
+scale_longitude         Helpful scales for maps
+scale_mag               Scale for vector magnitudes
+season                  Assign seasons to months
+spherical               Transform between spherical coordinates and
+                        physical coordinates
+stat_na                 Filter only NA values.
+stat_subset             Subset values
+surface                 Surface height
+temperature             Air temperature
+thermodynamics          Thermodynamics
+waves                   Fourier transform

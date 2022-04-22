@@ -4,15 +4,58 @@ RVersion: 4.0.4
 Repos:
     CRAN=https://packagemanager.rstudio.com/all/__linux__/focal/latest
 
+Package: Formula
+Source: RSPM
+Version: 1.2-4
+Hash: 208d48abc33780ec48578c904315e261
+
 Package: R6
 Source: CRAN
 Version: 2.5.0
 Hash: 25ebbd2664a276c915984da5c820c404
 
+Package: RColorBrewer
+Source: RSPM
+Version: 1.1-3
+Hash: c25e77c542c7cfa38c99c348677c62fc
+
+Package: RCurl
+Source: RSPM
+Version: 1.98-1.6
+Hash: 45c259051a18f470de65a7d152978003
+Requires: bitops
+
+Package: Rcpp
+Source: RSPM
+Version: 1.0.8.3
+Hash: 342731d762a1dbb4e8e94396a1f0a79f
+
+Package: RcppArmadillo
+Source: RSPM
+Version: 0.11.0.0.0
+Hash: 139732a8e223df73213fe06c1b04798f
+Requires: Rcpp
+
+Package: TTR
+Source: RSPM
+Version: 0.24.3
+Hash: 63c8a2e70d2caec9205d49cecd1d801c
+Requires: curl, xts, zoo
+
+Package: backports
+Source: RSPM
+Version: 1.4.1
+Hash: a7ac88d6c7250b57f53870ee2cfcd2be
+
 Package: base64enc
 Source: RSPM
 Version: 0.1-3
 Hash: c590d29e555926af053055e23ee79efb
+
+Package: bitops
+Source: RSPM
+Version: 1.0-7
+Hash: a1c58663065ce2dec2fb066c699e2e11
 
 Package: bslib
 Source: RSPM
@@ -20,33 +63,165 @@ Version: 0.3.1
 Hash: 86fdae1dfb23e3154ae70b0999a2a01d
 Requires: htmltools, jquerylib, jsonlite, rlang, sass
 
+Package: cachem
+Source: CRAN
+Version: 1.0.4
+Hash: 8ba7d0e3593d47517fbabf30860d0eeb
+Requires: fastmap, rlang
+
+Package: checkmate
+Source: RSPM
+Version: 2.0.0
+Hash: a3e368141b284ff08e4ef2e97ae01c53
+Requires: backports
+
+Package: cli
+Source: CRAN
+Version: 2.5.0
+Hash: f4afb5d894854c102b267975d45e380c
+Requires: glue
+
+Package: colorspace
+Source: RSPM
+Version: 2.0-3
+Hash: fa1063854efff0a00b5fad89e2f20f47
+
+Package: cowplot
+Source: RSPM
+Version: 1.1.1
+Hash: 1dfaf13847047d361ca03105b45833a2
+Requires: rlang, ggplot2, gtable, scales
+
+Package: cpp11
+Source: RSPM
+Version: 0.4.2
+Hash: fb849cc15463edbe2435b0ef5d110294
+
+Package: crayon
+Source: CRAN
+Version: 1.4.1
+Hash: 2e1b6e4b4bc63ebe2aaee1546b871329
+
+Package: curl
+Source: CRAN
+Version: 4.3.1
+Hash: 483291cb4444c3542a2a99903c217232
+
+Package: data.table
+Source: RSPM
+Version: 1.14.2
+Hash: 6e09e74cc9e29021c9e95fe7ed38dc68
+
 Package: digest
 Source: CRAN
 Version: 0.6.27
 Hash: 8ba156629c1537635b39332c93d8ed33
 
-Package: evaluate
+Package: dotCall64
+Source: RSPM
+Version: 1.0-1
+Hash: f1405ce34bf78dff0f63c6312b4b4821
+
+Package: dplyr
 Source: CRAN
+Version: 1.0.6
+Hash: da3b72d851a648c4994f40459d06ef23
+Requires: R6, ellipsis, glue, lifecycle, magrittr, pillar, rlang,
+    tibble, vctrs, generics, tidyselect
+
+Package: ellipsis
+Source: CRAN
+Version: 0.3.2
+Hash: b21bfc48556c0c6a93fc9ede6c00cfaf
+Requires: rlang
+
+Package: evaluate
+Source: RSPM
 Version: 0.14
 Hash: 18306cc3bc1aec7b7360eea8a0eb0ee1
+
+Package: fansi
+Source: CRAN
+Version: 0.4.2
+Hash: 46ab61226bcca6890ad4864250f62a0e
+
+Package: farver
+Source: RSPM
+Version: 2.1.0
+Hash: a001f1816f74d0e76e82171eef764a9d
 
 Package: fastmap
 Source: CRAN
 Version: 1.1.0
 Hash: e4d212b14d40b91c791c0b9d3b6ffd99
 
+Package: fields
+Source: RSPM
+Version: 13.3
+Hash: 3dbf3e31d760bb4a86c1911629c595dd
+Requires: maps, spam, viridis
+
+Package: forecast
+Source: github
+Version: 8.16.0.9000
+Hash: b664d26a16ff9ca4120359a13fa455a1
+Requires: Rcpp, RcppArmadillo, colorspace, generics, ggplot2, magrittr,
+    zoo, fracdiff, lmtest, timeDate, tseries, urca
+GithubRepo: forecast
+GithubUsername: robjhyndman
+GithubRef: HEAD
+GithubSha1: 2e65347da62e215b633bd874230e15c3ba90471f
+RemoteHost: api.github.com
+RemoteRepo: forecast
+RemoteUsername: robjhyndman
+RemoteRef: HEAD
+RemoteSha: 2e65347da62e215b633bd874230e15c3ba90471f
+
+Package: formula.tools
+Source: RSPM
+Version: 1.7.1
+Hash: 717a58efa5470913f7b6446d6ae2d138
+Requires: operator.tools
+
+Package: fracdiff
+Source: RSPM
+Version: 1.5-1
+Hash: aa862daf28f74c0fae8de4bb5c071675
+
 Package: fs
-Source: CRAN
+Source: RSPM
 Version: 1.5.0
 Hash: 918ea5c88cad73d5d5b529ca98f8ad11
+
+Package: generics
+Source: RSPM
+Version: 0.1.2
+Hash: 96be9b5a7c595867ef4424d605adf60e
+
+Package: ggplot2
+Source: RSPM
+Version: 3.3.5
+Hash: b54994f1f414ea1e2ecf978d298e9739
+Requires: glue, rlang, digest, gtable, isoband, scales, tibble, withr
 
 Package: glue
 Source: CRAN
 Version: 1.4.2
 Hash: afa798ba9deec3676e20300b79094749
 
+Package: gridExtra
+Source: RSPM
+Version: 2.3
+Hash: fa977bc1aab5588a08123b10ceb1ad3d
+Requires: gtable
+
+Package: gtable
+Source: RSPM
+Version: 0.3.0
+Hash: a9e7b0666eb933a0cb36779240b4462e
+
 Package: highr
-Source: CRAN
+Source: RSPM
 Version: 0.9
 Hash: 375daf47b5970a62560496bb8c6b996e
 Requires: xfun
@@ -57,6 +232,11 @@ Version: 0.5.2
 Hash: b28ba309140d26d4c282c4b5f91240aa
 Requires: base64enc, digest, fastmap, rlang
 
+Package: isoband
+Source: RSPM
+Version: 0.2.5
+Hash: 15170dedd197ee88139ce1845ecce097
+
 Package: jquerylib
 Source: RSPM
 Version: 0.1.4
@@ -64,39 +244,126 @@ Hash: 338eb4374296b76bdee1e463c810113d
 Requires: htmltools
 
 Package: jsonlite
-Source: CRAN
+Source: RSPM
 Version: 1.7.2
 Hash: a5965fb563ba3643e75c425a82f935e6
 
 Package: knitr
-Source: CRAN
+Source: RSPM
 Version: 1.33
 Hash: 524120cce0a17c3ff73a852a5157374e
 Requires: evaluate, highr, xfun, markdown, stringr, yaml
+
+Package: labeling
+Source: RSPM
+Version: 0.4.2
+Hash: 7474c78957f4e01d1dd4c04217eab244
+
+Package: lifecycle
+Source: CRAN
+Version: 1.0.0
+Hash: 0c18dc7a4e21abdc8132b7cac2b5fcb4
+Requires: glue, rlang
+
+Package: lmtest
+Source: RSPM
+Version: 0.9-40
+Hash: d7082aa25fe10a44b704bec204cd3415
+Requires: zoo
+
+Package: lubridate
+Source: RSPM
+Version: 1.8.0
+Hash: 3b484acb2e8bc9371b56a4e15b44570d
+Requires: cpp11, generics
 
 Package: magrittr
 Source: CRAN
 Version: 2.0.1
 Hash: d3c166b0573ae8c918edf7221dfe7380
 
+Package: maps
+Source: RSPM
+Version: 3.4.0
+Hash: 28fb4bf9586d94a77c305f16cc19a47d
+
 Package: markdown
-Source: CRAN
+Source: RSPM
 Version: 1.1
 Hash: 1b6a18fd395589425e338a47b999099f
 Requires: xfun, mime
 
-Package: mime
+Package: memoise
 Source: CRAN
+Version: 2.0.0
+Hash: e0563c696c0d1962d554868fe46716d2
+Requires: cachem, rlang
+
+Package: metR
+Source: RSPM
+Version: 0.12.0
+Hash: c0d420e8de4301a34ee04eb8348c2176
+Requires: Formula, RCurl, checkmate, data.table, digest, fields,
+    formula.tools, ggplot2, gtable, isoband, lubridate, memoise, purrr,
+    scales, stringr, plyr, sp
+
+Package: mime
+Source: RSPM
 Version: 0.10
 Hash: 20b0f90f3478d2baae76be49777ac9fe
 
+Package: munsell
+Source: RSPM
+Version: 0.5.0
+Hash: 38d0efee9bb99bef143bde41c4ce715c
+Requires: colorspace
+
+Package: operator.tools
+Source: RSPM
+Version: 1.6.3
+Hash: 595d38b57a6fe08d961b6e6b38a2e461
+
 Package: packrat
-Source: CRAN
+Source: RSPM
 Version: 0.6.0
 Hash: 62fd532b7524f498caa3cf4cc5f15490
 
-Package: rappdirs
+Package: pillar
 Source: CRAN
+Version: 1.6.0
+Hash: 9e328e6484cba72897cac9b12a619db6
+Requires: cli, ellipsis, fansi, lifecycle, rlang, crayon, utf8, vctrs
+
+Package: pkgconfig
+Source: CRAN
+Version: 2.0.3
+Hash: 5ff5f2361851a49534c96caa2a8071c7
+
+Package: plyr
+Source: RSPM
+Version: 1.8.7
+Hash: 6533463da4ba4c6133a6e310ef5f00fb
+Requires: Rcpp
+
+Package: purrr
+Source: CRAN
+Version: 0.3.4
+Hash: fb4c0edca61826ca0b5b33c828a7b276
+Requires: magrittr, rlang
+
+Package: quadprog
+Source: RSPM
+Version: 1.5-8
+Hash: 2be0e6327ae246d71c0e19f510692dfc
+
+Package: quantmod
+Source: RSPM
+Version: 0.4.18
+Hash: 217bf85cc0665980f0f9638abde45da6
+Requires: TTR, curl, xts, zoo
+
+Package: rappdirs
+Source: RSPM
 Version: 0.3.3
 Hash: fd602edfd7dbf365642e35dd9cc97958
 
@@ -116,7 +383,25 @@ Package: sass
 Source: RSPM
 Version: 0.4.1
 Hash: b14addc9b73f25537ac9784992985eb2
-Requires: R6, htmltools, rlang, fs, rappdirs
+Requires: htmltools, rlang, R6, fs, rappdirs
+
+Package: scales
+Source: RSPM
+Version: 1.2.0
+Hash: 3acd17505a1c6087b1f1052859edfa4f
+Requires: RColorBrewer, rlang, R6, farver, labeling, lifecycle,
+    munsell, viridisLite
+
+Package: sp
+Source: RSPM
+Version: 1.4-6
+Hash: 147a2b3996cdafad0eab38949cd57b3a
+
+Package: spam
+Source: RSPM
+Version: 2.8-0
+Hash: 9f7a0c625033cc8c2a2dd378b6d9639c
+Requires: dotCall64
 
 Package: stringi
 Source: CRAN
@@ -129,18 +414,92 @@ Version: 1.4.0
 Hash: 67da32dbb2a7a16f2ef124336358e54a
 Requires: glue, magrittr, stringi
 
+Package: tibble
+Source: CRAN
+Version: 3.1.1
+Hash: 337ee076631c0ea099495237247d941b
+Requires: lifecycle, rlang, magrittr, ellipsis, fansi, pillar,
+    pkgconfig, vctrs
+
+Package: tidyr
+Source: RSPM
+Version: 1.2.0
+Hash: 0d1763bb989188a8707925849899b976
+Requires: cpp11, dplyr, ellipsis, glue, lifecycle, magrittr, purrr,
+    rlang, tibble, tidyselect, vctrs
+
+Package: tidyselect
+Source: CRAN
+Version: 1.1.1
+Hash: 6415fa4c6b3b5417aa4d3381845d654c
+Requires: ellipsis, glue, rlang, vctrs, purrr
+
+Package: timeDate
+Source: RSPM
+Version: 3043.102
+Hash: bf9c128558c5730c3fbaf9ea5196e4bc
+
 Package: tinytex
 Source: RSPM
 Version: 0.38
 Hash: 10862b0ae5be4697b36e16bea73c19fa
 Requires: xfun
 
+Package: tseries
+Source: RSPM
+Version: 0.10-50
+Hash: 57a7d9087a02779202808a6623b219a4
+Requires: zoo, quadprog, quantmod
+
+Package: urca
+Source: RSPM
+Version: 1.3-0
+Hash: b25c95802d289d1659942d2b5c75afa1
+
+Package: utf8
+Source: CRAN
+Version: 1.2.1
+Hash: 4ae5f77d617721b66be32d2b47bc9148
+
+Package: vctrs
+Source: CRAN
+Version: 0.3.8
+Hash: e2e7a28fd30d8df018965c923afd1195
+Requires: ellipsis, glue, rlang
+
+Package: viridis
+Source: RSPM
+Version: 0.6.2
+Hash: 408766ecfc2ed335910ba58c262da654
+Requires: ggplot2, viridisLite, gridExtra
+
+Package: viridisLite
+Source: RSPM
+Version: 0.4.0
+Hash: aeccc8c24d26192f4043be0c69151b96
+
+Package: withr
+Source: CRAN
+Version: 2.4.2
+Hash: 56366c768cead0b9b2b773cf9f16a432
+
 Package: xfun
 Source: RSPM
 Version: 0.30
 Hash: 8a1c1ef1094e9924475383d044035d56
 
+Package: xts
+Source: RSPM
+Version: 0.12.1
+Hash: 9b1551063063ada0507836163d90d50c
+Requires: zoo
+
 Package: yaml
-Source: CRAN
+Source: RSPM
 Version: 2.2.1
 Hash: 424bc11cc358f23187feaa7978628196
+
+Package: zoo
+Source: RSPM
+Version: 1.8-10
+Hash: 88af19da068806efcf355739cc96c1a5

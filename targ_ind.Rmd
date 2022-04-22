@@ -1,6 +1,6 @@
 ---
 title: "Biodiversity targets analysis"
-author: "Rob Cooke"
+author: "Rob Cooke, Rob Boyd"
 date: "22/04/2022"
 output: html_notebook
 ---
@@ -15,27 +15,202 @@ knitr::opts_chunk$set(echo = TRUE)
 # install JAGS in terminal
 # sudo apt install jags
 
-# library(dplyr) # dplyr: data manipulation
-# library(tidyr) # tidyr: data manipulation
-# library(metR) # metR: plotting
-# library(gridExtra) # gridExtra: plotting
-# library(meta) # meta: meta-analytical mean
-# library(plotly) # plotly: plotting
-# 
-# # remotes::install_github("robjhyndman/forecast")
-# library(forecast) # forecast: forecasting
-# 
+library(dplyr) # dplyr: data manipulation
+library(tidyr) # tidyr: data manipulation
+library(metR) # metR: plotting
+
+# remotes::install_github("robjhyndman/forecast")
+library(forecast) # forecast: forecasting
+
 # # # ggplot2 package from github
 # # remotes::install_github("hadley/ggplot2")
-# library(ggplot2) # ggplot2: plotting
-# library(cowplot) # cowplot: plotting
+library(ggplot2) # ggplot2: plotting
+library(cowplot) # cowplot: plotting
+
+# # commit packages to packrat library
+# packrat::snapshot()
+# packrat::status()
+
+# set cowplot theme for ggplots
+ggplot2::theme_set(cowplot::theme_cowplot())
+
+```
+
+## Load data
+
+```{r}
+
+
+
+```
+
+## Forecast
+
+```{r}
+
+percrecov_0 <- data.frame(Year = c(2018, 2038), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0)))
+
+# percrecov_15 <- data.frame(Year = c(2018, 2033), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0.15)))
 # 
-# # # commit packages to packrat library
-# # packrat::snapshot()
-# # packrat::status()
-# 
-# # set cowplot theme for ggplots
-# ggplot2::theme_set(cowplot::theme_cowplot())
+# percrecov_30 <- data.frame(Year = c(2018, 2033), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0.3)))
+
+p_abun <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
+  geom_line(lwd = 0.5) +
+  geom_line(data = percrecov_0, lty = 2, lwd = 0.5, colour = "orange") + 
+  coord_cartesian(ylim = c(0, 100), xlim = c(1970, 2039)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(14), expand = c(0, 0))  +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(x = "Year", y = paste0("Index (", 1970, " = 100)"))
+
+# # save: p_abun
+# cowplot::save_plot("outputs/targs.png", p_abun, base_height = 4, base_aspect_ratio = 1.8, dpi = 300)
+
+## forecast
+
+ind <- log(D4a$Index.Mprime)
+
+# year parameters
+yr_start <- min(D4a$Year)
+yr_end <- max(D4a$Year)
+
+yrs <- yr_start:yr_end
+
+numb_start <- round(0.8*length(yrs)) + 1
+numb_end <- length(yrs) - 1
+
+# years to project
+proj_yrs <- 20
+
+for_start <- length(yrs) + 1
+for_end <- (for_start + proj_yrs) - 1
+
+# Rob Boyd's code
+
+maInd <- ma(ind, order = 5, centre = TRUE)
+
+allDat <- data.frame(ind = ind, maInd = maInd, yrs = yrs)
+
+mov_av <- ggplot(data = allDat, aes(x = yrs, y = ind)) +
+  geom_line() +
+  geom_line(aes(y = maInd), colour = "blue") +
+  theme_linedraw() + 
+  xlab("") +
+  ylab("Value")
+
+# # save: mov_av
+# cowplot::save_plot("outputs/mov_av.png", mov_av, base_height = 3, base_width = 6)
+  
+# jpeg("outputs/auto_cor.png", width = 6, height = 4, units = "in", res = 600)
+# ggtsdisplay(ind,
+#             theme = theme_linedraw(),
+#             main = "Autocorrelation in the indicator") 
+# dev.off()
+
+
+# auto.arima
+
+ts <- ts(ind, start = yr_start, end = yr_end, frequency = 1)
+
+ar <- forecast::auto.arima(ts, stepwise = FALSE, approximation = FALSE, seasonal = FALSE, ic = "aicc")
+
+preds <- forecast::forecast(ar, h = proj_yrs, level = c(80, 95))
+
+# RMSE ar
+summary(ar)
+# 0.03010995
+
+# naive
+ref <- forecast::naive(ts, h = proj_yrs, level = c(80, 95))
+
+ref2 <- forecast::meanf(ts, h = proj_yrs, level = c(80, 95))
+
+# RMSE naive
+summary(ref)
+# 0.05835465
+
+# forecast skill = 1 - (MSE forecast / MSE ref)
+# forecast skill = 1 - ((RMSE forecast ^ 2) / (RMSE ref ^ 2))
+fs <- 1 - ((accuracy(ar)[[2]] ^ 2) / (accuracy(ref2)[[2]] ^ 2))
+
+# cross-validation
+far2 <- function(x, h){forecast(Arima(x, order=c(2,1,0)), h=h)}
+e <- forecast::tsCV(ts, far2, h=20)
+
+# MSE
+colMeans(e, na.rm = TRUE)
+
+# RMSE
+sqrt(mean((e[,20])^2, na.rm=TRUE))
+
+# MAPE
+MAPE <- colMeans((100 * abs(e/ts)), na.rm = TRUE)
+
+# back-transform for plotting
+preds$mean <- exp(preds$mean)
+preds$lower <- exp(preds$lower)
+preds$upper <- exp(preds$upper)
+preds$x <- exp(preds$x)
+preds$fitted <- exp(preds$fitted)
+
+preds$mean[1] - preds$mean[20]
+preds$lower[21] - preds$lower[40]
+preds$upper[21] - preds$upper[40]
+
+pARIMA <- autoplot(preds) +
+  xlab("") +
+  ylab("") +
+  coord_cartesian(ylim = c(0, 100), xlim = c(1970, 2039)) +
+  ggtitle("") +
+  labs(main = "", x = "Year", y = "Index (1970 = 100)") +
+  scale_x_continuous(breaks = scales::pretty_breaks(10), expand = c(0, 0))  +
+  scale_y_continuous(expand = c(0,0))
+
+# # save: pARIMA
+# cowplot::save_plot("outputs/auto_arima.png", pARIMA, base_height = 4, base_width = 8, dpi = 300)
+
+fig2 <- cowplot::plot_grid(p_abun, pARIMA, nrow = 2, labels = "auto")
+
+# # save: fig2
+# cowplot::save_plot("outputs/fig2.png", fig2, base_height = 6, base_width = 8, dpi = 300)
+
+## Nick's line
+
+bend <- read.csv("data/bend_curve_0.csv")
+
+preds_df <- as.data.frame(preds) %>% 
+  setNames(., c("mean", "low_80", "high_80", "low_95", "high_95")) %>% 
+  tibble::rownames_to_column("year") %>%
+  dplyr::mutate(year = as.numeric(year)) %>% 
+  tibble::add_row(year = 2018, mean = D4a[49,2], low_80 = D4a[49,2], high_80 = D4a[49,2], low_95 = D4a[49,2], high_95 = D4a[49,2])
+
+lwid <- 0.7
+
+fig2 <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
+  geom_ribbon(aes(ymin = lowerCI.Mprime, ymax = upperCI.Mprime), fill = "grey80") +
+  geom_line(lwd = 0.5) +
+  # forecast
+  geom_ribbon(data = preds_df, aes(x = year, ymin = low_95, ymax = high_95, y = mean), fill = "lightskyblue1") +
+  geom_ribbon(data = preds_df, aes(x = year, ymin = low_80, ymax = high_80, y = mean), fill = "lightskyblue") +
+  geom_line(data = preds_df, aes(x = year, y = mean), colour = "dodgerblue3", lwd = lwid) +
+  # target
+  geom_line(data = percrecov_0, lty = 2, lwd = lwid, colour = "darkorange3") +
+  # bend target
+  geom_line(data = bend, aes(x = year, y = indexBend), lty = 3, lwd = lwid, colour = "darkorange3") +
+  coord_cartesian(ylim = c(0, 100), xlim = c(1970, 2039)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(14), expand = c(0, 0))  +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(x = "Year", y = paste0("Index (", 1970, " = 100)"))
+
+# # save: fig2
+# cowplot::save_plot("outputs/fig2.png", fig2, base_height = 4, base_aspect_ratio = 2.2, dpi = 600)
+
+```
+
+## Target-achievability pathways 
+
+```{r}
+
+
 
 ```
 
