@@ -1,0 +1,41 @@
+---
+title: "Biodiversity targets analysis"
+author: "Rob Cooke"
+date: "22/04/2022"
+output: html_notebook
+---
+
+## Set-up ##
+
+Here we load the necessary packages
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# install JAGS in terminal
+# sudo apt install jags
+
+# library(dplyr) # dplyr: data manipulation
+# library(tidyr) # tidyr: data manipulation
+# library(metR) # metR: plotting
+# library(gridExtra) # gridExtra: plotting
+# library(meta) # meta: meta-analytical mean
+# library(plotly) # plotly: plotting
+# 
+# # remotes::install_github("robjhyndman/forecast")
+# library(forecast) # forecast: forecasting
+# 
+# # # ggplot2 package from github
+# # remotes::install_github("hadley/ggplot2")
+# library(ggplot2) # ggplot2: plotting
+# library(cowplot) # cowplot: plotting
+# 
+# # # commit packages to packrat library
+# # packrat::snapshot()
+# # packrat::status()
+# 
+# # set cowplot theme for ggplots
+# ggplot2::theme_set(cowplot::theme_cowplot())
+
+```
+

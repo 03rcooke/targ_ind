@@ -1,0 +1,146 @@
+PackratFormat: 1.4
+PackratVersion: 0.6.0
+RVersion: 4.0.4
+Repos:
+    CRAN=https://packagemanager.rstudio.com/all/__linux__/focal/latest
+
+Package: R6
+Source: CRAN
+Version: 2.5.0
+Hash: 25ebbd2664a276c915984da5c820c404
+
+Package: base64enc
+Source: RSPM
+Version: 0.1-3
+Hash: c590d29e555926af053055e23ee79efb
+
+Package: bslib
+Source: RSPM
+Version: 0.3.1
+Hash: 86fdae1dfb23e3154ae70b0999a2a01d
+Requires: htmltools, jquerylib, jsonlite, rlang, sass
+
+Package: digest
+Source: CRAN
+Version: 0.6.27
+Hash: 8ba156629c1537635b39332c93d8ed33
+
+Package: evaluate
+Source: CRAN
+Version: 0.14
+Hash: 18306cc3bc1aec7b7360eea8a0eb0ee1
+
+Package: fastmap
+Source: CRAN
+Version: 1.1.0
+Hash: e4d212b14d40b91c791c0b9d3b6ffd99
+
+Package: fs
+Source: CRAN
+Version: 1.5.0
+Hash: 918ea5c88cad73d5d5b529ca98f8ad11
+
+Package: glue
+Source: CRAN
+Version: 1.4.2
+Hash: afa798ba9deec3676e20300b79094749
+
+Package: highr
+Source: CRAN
+Version: 0.9
+Hash: 375daf47b5970a62560496bb8c6b996e
+Requires: xfun
+
+Package: htmltools
+Source: RSPM
+Version: 0.5.2
+Hash: b28ba309140d26d4c282c4b5f91240aa
+Requires: base64enc, digest, fastmap, rlang
+
+Package: jquerylib
+Source: RSPM
+Version: 0.1.4
+Hash: 338eb4374296b76bdee1e463c810113d
+Requires: htmltools
+
+Package: jsonlite
+Source: CRAN
+Version: 1.7.2
+Hash: a5965fb563ba3643e75c425a82f935e6
+
+Package: knitr
+Source: CRAN
+Version: 1.33
+Hash: 524120cce0a17c3ff73a852a5157374e
+Requires: evaluate, highr, xfun, markdown, stringr, yaml
+
+Package: magrittr
+Source: CRAN
+Version: 2.0.1
+Hash: d3c166b0573ae8c918edf7221dfe7380
+
+Package: markdown
+Source: CRAN
+Version: 1.1
+Hash: 1b6a18fd395589425e338a47b999099f
+Requires: xfun, mime
+
+Package: mime
+Source: CRAN
+Version: 0.10
+Hash: 20b0f90f3478d2baae76be49777ac9fe
+
+Package: packrat
+Source: CRAN
+Version: 0.6.0
+Hash: 62fd532b7524f498caa3cf4cc5f15490
+
+Package: rappdirs
+Source: CRAN
+Version: 0.3.3
+Hash: fd602edfd7dbf365642e35dd9cc97958
+
+Package: rlang
+Source: RSPM
+Version: 1.0.2
+Hash: e425030db52673e5a5cc00f51fb24b13
+
+Package: rmarkdown
+Source: RSPM
+Version: 2.13
+Hash: fe46f09bb8c48d2b97226c8d73fbe528
+Requires: bslib, evaluate, htmltools, jquerylib, jsonlite, knitr,
+    stringr, xfun, yaml, tinytex
+
+Package: sass
+Source: RSPM
+Version: 0.4.1
+Hash: b14addc9b73f25537ac9784992985eb2
+Requires: R6, htmltools, rlang, fs, rappdirs
+
+Package: stringi
+Source: CRAN
+Version: 1.6.1
+Hash: a844a97d217c6c72f38b703fec93ccec
+
+Package: stringr
+Source: CRAN
+Version: 1.4.0
+Hash: 67da32dbb2a7a16f2ef124336358e54a
+Requires: glue, magrittr, stringi
+
+Package: tinytex
+Source: RSPM
+Version: 0.38
+Hash: 10862b0ae5be4697b36e16bea73c19fa
+Requires: xfun
+
+Package: xfun
+Source: RSPM
+Version: 0.30
+Hash: 8a1c1ef1094e9924475383d044035d56
+
+Package: yaml
+Source: CRAN
+Version: 2.2.1
+Hash: 424bc11cc358f23187feaa7978628196
