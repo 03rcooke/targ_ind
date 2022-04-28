@@ -254,18 +254,35 @@ spclass &lt;- read.csv(&quot;data/raw/Species_action_classification.csv&quot;, s
 <h2>Build biodiversity indicator</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRDRhX2V4YW1wbGUgPC0gQlJDaW5kaWNhdG9yczo6Ym1hKHRzLCBwbG90ID0gRkFMU0UsIG1vZGVsID0gXCJzbW9vdGhcIiwgbS5zY2FsZSA9IFwibG9nZVwiLCBlcnJvclkxID0gVFJVRSwgWTFwZXJmZWN0ID0gRkFMU0UsIG51bS5rbm90cyA9IHJvdCwgbi5pdGVyID0gMTAwMCwgcGFyYWxsZWwgPSBUUlVFKVxuXG5gYGAifQ== -->
-<pre class="r"><code>D4a_example &lt;- BRCindicators::bma(ts, plot = FALSE, model = &quot;smooth&quot;, m.scale = &quot;loge&quot;, errorY1 = TRUE, Y1perfect = FALSE, num.knots = rot, n.iter = 1000, parallel = TRUE)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEQ0YVxuXG4jIHByZXBhcmUgc3BlY2llcyBkYXRhXG50cyA8LSBzcHBfdHMgJT4lIFxuICAjIGxvZyB0cmFuc2Zvcm0gaW5kZXhcbiAgZHBseXI6Om11dGF0ZShpbmRleF9sb2cgPSBsb2coaW5kZXgpKSAlPiUgXG4gICMgZGF0YSBzdHJ1Y3R1cmUgZm9yIGJtYSBmdW5jdGlvblxuICBkcGx5cjo6c2VsZWN0KHNwZWNpZXMgPSBzY2llbnRpZmljX25hbWUsIHllYXIsIGluZGV4ID0gaW5kZXhfbG9nKVxuXG4jIG51bWJlciBvZiBzcGVjaWVzIGluY2x1ZGVkIGluIGFidW5kYW5jZSBpbmRpY2F0b3Jcbmxlbmd0aCh1bmlxdWUodHMkc3BlY2llcykpXG4jIDEzNCBleGFtcGxlIHNwZWNpZXNcblxuIyBydWxlIG9mIHRodW1iIGZvciBudW1iZXIgb2Yga25vdHNcbnJvdCA8LSByb3VuZCgobWF4KHRzJHllYXIpIC0gbWluKHRzJHllYXIpKSAvIDMpXG5cbkQ0YV9leGFtcGxlIDwtIEJSQ2luZGljYXRvcnM6OmJtYSh0cywgcGxvdCA9IEZBTFNFLCBtb2RlbCA9IFwic21vb3RoXCIsIG0uc2NhbGUgPSBcImxvZ2VcIiwgZXJyb3JZMSA9IFRSVUUsIFkxcGVyZmVjdCA9IEZBTFNFLCBudW0ua25vdHMgPSByb3QsIG4uaXRlciA9IDEwMDAsIHBhcmFsbGVsID0gVFJVRSlcbiMgbi5pdGVyID0gNTAwMDAgZm9yIGFjdHVhbCBkYXRhXG5cbiMgdmFsdWVzXG5pbmRfdmFsc19leCA8LSBhcy5kYXRhLmZyYW1lKEQ0YV9leGFtcGxlKSAlPiUgXG4gIGRwbHlyOjpzZWxlY3QoLWRwbHlyOjplbmRzX3dpdGgoXCJNXCIpKVxuXG4jIHdyaXRlLmNzdlxuIyB0aGlzIGlzIGhvdyBcImRhdGEvcmF3L3RlcnJfYWJ1bl92YWxzX0VORy5jc3ZcIiB3YXMgcHJvZHVjZWQgd2l0aCB0aGUgYWN0dWFsIGRhdGFcblxuYGBgIn0= -->
+<pre class="r"><code>
+# D4a
+
+# prepare species data
+ts &lt;- spp_ts %&gt;% 
+  # log transform index
+  dplyr::mutate(index_log = log(index)) %&gt;% 
+  # data structure for bma function
+  dplyr::select(species = scientific_name, year, index = index_log)
+
+# number of species included in abundance indicator
+length(unique(ts$species))
+# 134 example species
+
+# rule of thumb for number of knots
+rot &lt;- round((max(ts$year) - min(ts$year)) / 3)
+
+D4a_example &lt;- BRCindicators::bma(ts, plot = FALSE, model = &quot;smooth&quot;, m.scale = &quot;loge&quot;, errorY1 = TRUE, Y1perfect = FALSE, num.knots = rot, n.iter = 1000, parallel = TRUE)
+# n.iter = 50000 for actual data
+
+# values
+ind_vals_ex &lt;- as.data.frame(D4a_example) %&gt;% 
+  dplyr::select(-dplyr::ends_with(&quot;M&quot;))
+
+# write.csv
+# this is how &quot;data/raw/terr_abun_vals_ENG.csv&quot; was produced with the actual data
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5Qcm9jZXNzaW5nIGZ1bmN0aW9uIGlucHV0Li4uLi4uLiBcblxuRG9uZS4gXG4gXG5CZWdpbm5pbmcgcGFyYWxsZWwgcHJvY2Vzc2luZyB1c2luZyA3IGNvcmVzLiBDb25zb2xlIG91dHB1dCB3aWxsIGJlIHN1cHByZXNzZWQuXG4ifQ== -->
-<pre><code>
-Processing function input....... 
-
-Done. 
- 
-Beginning parallel processing using 7 cores. Console output will be suppressed.</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
