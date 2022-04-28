@@ -1,0 +1,139 @@
+# Changes from Version 1.5.1 to 1.5.2 [18 June 2021] #
+
+Remove View function due to problematic interactions with RStudio
+Improvements to traceplot and densityplot
+Make sure output is reproducible when parallel=FALSE
+Minor bugfixes
+
+# Changes from Version 1.5.0 to 1.5.1 [30 July 2019] #
+
+Fix issue when chains adapted for different numbers of iterations
+Fix crash when DIC was requested but JAGS couldn't calculate it
+Stop auto-converting 1 row/1 col matrices into vectors
+Improve pp.check plotting function
+Add some warnings about functions and arguments that will be deprecated soon
+
+# Changes from Version 1.4.9 to 1.5.0 [9 September 2018] #
+
+Fix issues with NAs in parameters.
+Fix missing arguments in autojags().
+Handle errors in output processing so that samples are not lost completely.
+Make sure a specified random seed is used for initial value functions.
+Fix error where summary stats were printed in the wrong order for some parameters.
+Don't collapse 1 row/1col matrices into vectors automatically.
+
+# Changes from Version 1.4.8 to 1.4.9 [8 December 2017] #
+
+Fix bug with DIC output introduced in 1.4.7.
+
+# Changes from Version 1.4.7 to 1.4.8 [17-November 2017] #
+
+Minor changes to prep for CRAN submission.
+
+# Changes from Version 1.4.5 to 1.4.7 [17-August-2017] #
+
+Fix more issues with random seeds and problems with DIC.
+
+# Changes from Version 1.4.5 to 1.4.6 [26-May-2017] #
+
+Fix issue with setting seed affecting other random number generation.
+
+# Changes from Version 1.4.4 to 1.4.5 [8-Feb-2017] #
+
+Allow turning deviance/DIC monitoring on/off when updating an existing model. Overhaul handling of adaptation; default to running a sequence of adapt() calls until JAGS reports adapation is adequate. Suggest minimum of 1000 adaptation iterations otherwise in man pages. Change output of summary function. Add ability to control factories.
+
+# Changes from Version 1.4.3 to 1.4.4 [10-Nov-2016] #
+
+Change default approach to generating random seeds. Add S3 method for View() and convert traceplot() to an S3 method from S4.
+
+# Changes from Version 1.4.2 to 1.4.3 [15-Sept-2016] #
+
+Fix to allow running in parallel when dependencies are in non-standard libraries. Fix bug when updating jagsbasic class.
+
+# Changes from Version 1.4.1 to 1.4.2 [21-Feb-2016] #
+
+Changes to NAMESPACE to get clean build check on R-devel.
+
+# Changes from Version 1.4.0 to 1.4.1 [20-Feb-2016] #
+
+Add ability to specify number of CPU cores to use when running in parallel.
+
+# Changes from Version 1.3.9 to 1.4.0 [10-Feb-2016] #
+
+Fix a problem where saving output for a single scalar parameter broke output processing.
+
+# Changes from Version 1.3.8 to 1.3.9 [21-Jan-2016] #
+
+Fix a problem where nonscalar estimated parameters with missing (i.e., non-estimated) values broke the display of summary stats.
+
+# Changes from Version 1.3.7 to 1.3.8 [13-July-2015] #
+
+Explicitly import functions from default packages to meet new standards for building with R-devel. Change minimum required version of rjags to 3-13.
+
+# Changes from Version 1.3.6 to 1.3.7 [11-June-2015] #
+
+Add verbose argument to functions to allow suppression of all text output in the console as the function runs.
+
+# Changes from Version 1.3.5 to 1.3.6 [6-May-2015] #
+
+Change method for closing connection to clusters when running in parallel to avoid closing unrelated connections. Adjust output for jags.basic.
+
+# Changes from Version 1.3.4 to 1.3.5 [26-Mar-2015] #
+
+Fix problem with max.iter argument in autojags(). Clarify documentation and output for autojags().
+
+# Changes from Version 1.3.3 to 1.3.4 [21-Mar-2015] #
+
+Add option save.all.iter in autojags() function to combine MCMC samples from all iterative updates into final posterior.
+
+# Changes from Version 1.3.2 to 1.3.3 [24-Feb-2015] #
+
+Fix issue with calculating stats that sometimes occurred with a constant posterior distribution.
+
+# Changes from Version 1.3.1 to 1.3.2 [29-Jan-2015] #
+
+Fix error where autojags did not handle NA rhat values properly. Added more helpful warning when at least one rhat value = NA.
+
+# Changes from Version 1.3 to 1.3.1 [15-Jan-2015] #
+
+Minor wording changes.
+
+# Changes from Version 1.2 to 1.3 [1-Dec-2014] #
+
+Add warning and fix issue with traceplot when number of saved iterations after thinning was rounded up by JAGS (because it wasn't an integer). Several small fixes to clean up code and get R CMD check to run cleanly.
+
+# Changes from Version 1.1 to 1.2 [19-Nov-2014] #
+
+Add some failsafes/warnings.
+
+# Changes from Version 1.0 to 1.1 [28-July-2014] #
+
+Clean up / modularize code. Add an auto-updating function autojags(). Several small bugfixes.
+
+# Changes from Version 0.01-7 to 1.00 [21-May-2014] #
+
+Update to new package name ('jagsUI'). Implement update function. Bugfixes. Final release prior to CRAN upload.
+
+# Changes from Version 0.01-6 to 0.01-7 [12-May-2014] #
+
+Fix setting the random seed so it actually works. Allow running MCMC chains in parallel. Various bugfixes.
+
+# Changes from Version 0.01-5 to 0.01-6 [9-May-2014] #
+
+Overhaul calculation of statistics to speed things up. Minor bugfixes.
+
+# Changes from Version 0.01-4 to 0.01-5 [6-May-2014] #
+
+Bugfixes. Changed primary function name to 'jags' from 'simplejags' for simplicity. Also edited several other function names. Added a summary table to the output object.
+
+# Changes from Version 0.01-3 to 0.01-4 [1-May-2014] #
+
+Improve processing of input data to avoid some common errors. Changed traceplots() function to traceplot() to be more consistent with similar packages. Added ability to calculate DIC and pD for JAGS models. Cleaned up the print method.
+
+# Changes from Version 0.01-2 to 0.01-3 [17-Apr-2014] #
+
+Simplify output object so that indexed parameters are contained in their own array rather than many separate list objects. Adjust other functions to match this change. Clean up the printed text / progress bars in R console.
+
+# Changes from Version 0.01-1 to 0.01-2 [8-Apr-2014] #
+
+Fix problem where some components of output object were vectors instead of lists (and change print function accordingly). Add option for simplejags() to save input data and initial values in model output object for future use (store.data).

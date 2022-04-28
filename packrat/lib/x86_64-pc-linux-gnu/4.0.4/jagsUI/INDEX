@@ -1,0 +1,13 @@
+autojags                Automatically run jagsUI analyses to
+                        convergence
+densityplot             Density plots of JAGS output
+jags                    Call JAGS from R
+jags.View               View a jagsUI output object in a separate
+                        window
+jags.basic              Simplified function to call JAGS from R
+pp.check                Posterior Predictive Checks for Bayesian
+                        Analyses fit in JAGS
+traceplot               Traceplots of JAGS output
+update                  Update a JAGS model
+whiskerplot             Whisker plots of parameter posterior
+                        distributions

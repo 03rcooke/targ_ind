@@ -1,0 +1,22 @@
+CompositeTrend          CompositeTrend function
+GAM_smoothing           GAM smoothing
+bats                    Data - National Bat Monitoring Programme, UK
+bma                     Bayesian Meta-analysis
+bootstrap_indicator     Bootstrapping indicator
+butterflies_hs          Data - UK Butterfly Monitoring Scheme - Habitat
+                        Specialists
+butterflies_wc          Data - UK Butterfly Monitoring Scheme - Wider
+                        Countryside Species
+dragonflies             Data - British Dragonfly Society, UK
+get_bmaBUGScode         Extract BMA BUGS code
+lambda_indicator        Rescale species values for indicator using
+                        Lambda interpolation
+msi                     Multi-Species Indicator
+msi_tool                Multi-Species Indicator tool
+plot.MSI                A function to plots msi results
+plot_indicator          Plot indicator
+plot_trend_stack        Plot species trend stack plots
+rescale_posterior       Rescale species values for indicator
+rescale_species         Rescale species values for indicator
+summarise_occDet        Summarise Occupancy model output
+trend_assessment        Assess trends for indicator

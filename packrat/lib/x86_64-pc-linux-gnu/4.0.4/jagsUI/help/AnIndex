@@ -1,0 +1,14 @@
+autojags	autojags
+densityplot	densityplot
+jags	jags
+jags.basic	jagsbasic
+jags.View	jags_View
+jagsUI	jags
+jagsUI-class	jags
+jagsUIbasic-class	jagsbasic
+pp.check	ppcheck
+traceplot	traceplot
+update	update
+update.jagsUI	update
+update.jagsUIbasic	update
+whiskerplot	whiskerplot
