@@ -18,14 +18,12 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr) # dplyr: data manipulation
 library(tidyr) # tidyr: data manipulation
 library(metR) # metR: plotting
-
-# remotes::install_github("robjhyndman/forecast")
-library(forecast) # forecast: forecasting
-
-# # # ggplot2 package from github
-# # remotes::install_github("hadley/ggplot2")
 library(ggplot2) # ggplot2: plotting
 library(cowplot) # cowplot: plotting
+
+# # install forecast package from github
+# remotes::install_github("robjhyndman/forecast")
+library(forecast) # forecast: forecasting
 
 # # commit packages to packrat library
 # packrat::snapshot()
@@ -40,20 +38,39 @@ ggplot2::theme_set(cowplot::theme_cowplot())
 
 ```{r}
 
+# load D4a indicator values
+D4a <- read.csv("data/raw/terr_abun_vals_ENG.csv")
 
+# curve
+bend <- read.csv("data/raw/bend_curve_0.csv")
+
+# example index data
+spp_ts <- readRDS("data/raw/example_index.rds")
+
+# species classifications
+spclass <- read.csv("data/raw/Species_action_classification.csv", stringsAsFactors = FALSE)
 
 ```
+
+## Build biodiversity indicator
+
+```{r}
+
+# NEED to get code from other datalabs
+
+```
+
 
 ## Forecast
 
 ```{r}
 
+## indicator
+
+# target
 percrecov_0 <- data.frame(Year = c(2018, 2038), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0)))
 
-# percrecov_15 <- data.frame(Year = c(2018, 2033), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0.15)))
-# 
-# percrecov_30 <- data.frame(Year = c(2018, 2033), Index.Mprime = c(D4a$Index.Mprime[49], D4a$Index.Mprime[49] + ((100 - D4a$Index.Mprime[49]) * 0.3)))
-
+# plot indicator and target
 p_abun <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
   geom_line(lwd = 0.5) +
   geom_line(data = percrecov_0, lty = 2, lwd = 0.5, colour = "orange") + 
@@ -61,9 +78,6 @@ p_abun <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
   scale_x_continuous(breaks = scales::pretty_breaks(14), expand = c(0, 0))  +
   scale_y_continuous(expand = c(0, 0)) +
   labs(x = "Year", y = paste0("Index (", 1970, " = 100)"))
-
-# # save: p_abun
-# cowplot::save_plot("outputs/targs.png", p_abun, base_height = 4, base_aspect_ratio = 1.8, dpi = 300)
 
 ## forecast
 
@@ -84,32 +98,9 @@ proj_yrs <- 20
 for_start <- length(yrs) + 1
 for_end <- (for_start + proj_yrs) - 1
 
-# Rob Boyd's code
-
-maInd <- ma(ind, order = 5, centre = TRUE)
-
-allDat <- data.frame(ind = ind, maInd = maInd, yrs = yrs)
-
-mov_av <- ggplot(data = allDat, aes(x = yrs, y = ind)) +
-  geom_line() +
-  geom_line(aes(y = maInd), colour = "blue") +
-  theme_linedraw() + 
-  xlab("") +
-  ylab("Value")
-
-# # save: mov_av
-# cowplot::save_plot("outputs/mov_av.png", mov_av, base_height = 3, base_width = 6)
-  
-# jpeg("outputs/auto_cor.png", width = 6, height = 4, units = "in", res = 600)
-# ggtsdisplay(ind,
-#             theme = theme_linedraw(),
-#             main = "Autocorrelation in the indicator") 
-# dev.off()
-
-
 # auto.arima
 
-ts <- ts(ind, start = yr_start, end = yr_end, frequency = 1)
+ts <- stats::ts(ind, start = yr_start, end = yr_end, frequency = 1)
 
 ar <- forecast::auto.arima(ts, stepwise = FALSE, approximation = FALSE, seasonal = FALSE, ic = "aicc")
 
@@ -122,6 +113,7 @@ summary(ar)
 # naive
 ref <- forecast::naive(ts, h = proj_yrs, level = c(80, 95))
 
+# mean
 ref2 <- forecast::meanf(ts, h = proj_yrs, level = c(80, 95))
 
 # RMSE naive
@@ -130,17 +122,20 @@ summary(ref)
 
 # forecast skill = 1 - (MSE forecast / MSE ref)
 # forecast skill = 1 - ((RMSE forecast ^ 2) / (RMSE ref ^ 2))
-fs <- 1 - ((accuracy(ar)[[2]] ^ 2) / (accuracy(ref2)[[2]] ^ 2))
+fs <- 1 - ((forecast::accuracy(ar)[[2]] ^ 2) / (forecast::accuracy(ref2)[[2]] ^ 2))
 
 # cross-validation
-far2 <- function(x, h){forecast(Arima(x, order=c(2,1,0)), h=h)}
-e <- forecast::tsCV(ts, far2, h=20)
+far2 <- function(x, h) {
+  forecast::forecast(forecast::Arima(x, order = c(2,1,0)), h = h)
+}
+
+e <- forecast::tsCV(ts, far2, h = proj_yrs)
 
 # MSE
 colMeans(e, na.rm = TRUE)
 
 # RMSE
-sqrt(mean((e[,20])^2, na.rm=TRUE))
+sqrt(mean((e[,proj_yrs])^2, na.rm=TRUE))
 
 # MAPE
 MAPE <- colMeans((100 * abs(e/ts)), na.rm = TRUE)
@@ -156,6 +151,7 @@ preds$mean[1] - preds$mean[20]
 preds$lower[21] - preds$lower[40]
 preds$upper[21] - preds$upper[40]
 
+# arima plot
 pARIMA <- autoplot(preds) +
   xlab("") +
   ylab("") +
@@ -165,18 +161,6 @@ pARIMA <- autoplot(preds) +
   scale_x_continuous(breaks = scales::pretty_breaks(10), expand = c(0, 0))  +
   scale_y_continuous(expand = c(0,0))
 
-# # save: pARIMA
-# cowplot::save_plot("outputs/auto_arima.png", pARIMA, base_height = 4, base_width = 8, dpi = 300)
-
-fig2 <- cowplot::plot_grid(p_abun, pARIMA, nrow = 2, labels = "auto")
-
-# # save: fig2
-# cowplot::save_plot("outputs/fig2.png", fig2, base_height = 6, base_width = 8, dpi = 300)
-
-## Nick's line
-
-bend <- read.csv("data/bend_curve_0.csv")
-
 preds_df <- as.data.frame(preds) %>% 
   setNames(., c("mean", "low_80", "high_80", "low_95", "high_95")) %>% 
   tibble::rownames_to_column("year") %>%
@@ -185,7 +169,8 @@ preds_df <- as.data.frame(preds) %>%
 
 lwid <- 0.7
 
-fig2 <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
+# figure 4 forecast
+fig4 <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
   geom_ribbon(aes(ymin = lowerCI.Mprime, ymax = upperCI.Mprime), fill = "grey80") +
   geom_line(lwd = 0.5) +
   # forecast
@@ -201,8 +186,8 @@ fig2 <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
   scale_y_continuous(expand = c(0, 0)) +
   labs(x = "Year", y = paste0("Index (", 1970, " = 100)"))
 
-# # save: fig2
-# cowplot::save_plot("outputs/fig2.png", fig2, base_height = 4, base_aspect_ratio = 2.2, dpi = 600)
+# # save: fig4
+# cowplot::save_plot("outputs/fig4_forecast.png", fig4, base_height = 4, base_aspect_ratio = 2.2, dpi = 300)
 
 ```
 
@@ -210,7 +195,425 @@ fig2 <- ggplot(data = D4a, aes(x = Year, y = Index.Mprime)) +
 
 ```{r}
 
+## D4a
 
+strt_yr <- 1998
+end_yr <- 2018
+
+nyr <- end_yr - strt_yr
+
+# targets
+cr <- D4a[49,2] # current geomean index value
+offset <- (100 - cr) * 0.01
+
+spp_first <- spp_ts %>% 
+  dplyr::filter(year == strt_yr) %>% 
+  dplyr::select(scientific_name, ind_first = index, year_first = year)
+
+spp_last <- spp_ts %>% 
+  dplyr::filter(year == end_yr) %>% 
+  dplyr::select(scientific_name, ind_last = index, year_last = year)
+
+spp_chang <- dplyr::inner_join(spp_first, spp_last, by = c("scientific_name")) %>% 
+  # replace zero with very small number - can't divide by zero
+  dplyr::mutate(ind_first = ifelse(ind_first == 0, 1e-07, ind_first)) %>% 
+  #  growth rate - see occurrenceChange()
+  dplyr::mutate(change = (((ind_last / ind_first) ^ (1 / nyr)) - 1) * 100) %>% 
+  # drop nas - no value in either first or last year
+  tidyr::drop_na(change) %>% 
+  dplyr::mutate(pos = ifelse(change >= 0, 1, 0))
+
+hist_growth <- ggplot(data = spp_chang, aes(x = change)) +
+  geom_histogram() +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  labs(x = "Annual growth rate", y = "Number of species")
+
+# declining species
+decl <- spp_chang %>% 
+  dplyr::filter(change < 0)
+
+nrow(decl) / nrow(spp_chang) * 100
+
+median(decl$change)
+
+# stable
+spp_chang %>% 
+  dplyr::filter(change == 0) %>% 
+  nrow(.) / nrow(spp_chang) * 100
+
+# increasing species
+incr <- spp_chang %>% 
+  dplyr::filter(change >= 0)
+
+nrow(incr) / nrow(spp_chang) * 100
+
+median(incr$change)
+
+# geometric mean
+geomean <- function(x) exp(mean(log(x), na.rm = TRUE))
+
+pg_ind_curr <- geomean(spp_chang$ind_last) * 100
+
+## biological prioritization approach
+
+nspp_div_r <- (1:nrow(decl))
+grow_div_r <- seq(-5, 15, by = 1)
+
+combinations_r <- expand.grid(nspp_div_r, grow_div_r) %>% 
+  dplyr::mutate(prop = Var1 / nrow(decl))
+
+# function to project indicator to future under biological prioritization
+rank_grow <- function(comb) {
+  
+  pg_data <- lapply(1:nrow(comb), function(x) {
+    
+    nspp <- comb[x, 1]
+    grow <- comb[x, 2]
+    prop <- comb[x, 3]
+    
+    # increasing species (continue to grow)
+    incr <- incr %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+
+    # target species
+    samp_decl <- decl %>% 
+      dplyr::arrange(change) %>% 
+      dplyr::slice(seq_len(nspp)) %>% 
+      dplyr::mutate(change = grow) %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+
+    # non-target species
+    nsamp_decl <- decl %>% 
+      dplyr::filter(!scientific_name %in% samp_decl$scientific_name) %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+
+    # join species back together
+    prep_decl <- dplyr::bind_rows(samp_decl, nsamp_decl)
+    prep <- dplyr::bind_rows(prep_decl, incr)
+  
+    # calculate indicator
+    pg_ind_proj <- geomean(prep$ind_proj) * 100
+    pg_ind_proj_incr <- geomean(incr$ind_proj) * 100
+    pg_ind_proj_decl <- geomean(prep_decl$ind_proj) * 100
+  
+    # combine output data
+    pg_inds <- data.frame(prop = prop, grow = grow, pg_ind_curr = pg_ind_curr, pg_ind_proj = pg_ind_proj, pg_ind_proj_incr = pg_ind_proj_incr, pg_ind_proj_decl = pg_ind_proj_decl) %>% 
+      dplyr::mutate(pg_ind_diff = pg_ind_proj - pg_ind_curr)
+    
+  }) %>% 
+  # collapse across combinations
+  dplyr::bind_rows(.)
+}
+
+rg <- rank_grow(comb = combinations_r)
+
+# rg_identifiers <- data.frame(prop = c(0.5, 0.073, 0.3), grow = c(-3.055, 10, 2.1), z = NA, id = c("I", "II", "III"))
+
+rg_plot <- ggplot(data = rg, aes(x = prop, y = grow)) +
+  metR::geom_contour_fill(aes(z = pg_ind_diff), breaks = seq(-21, 21, by = 2)) +
+  geom_contour(aes(z = pg_ind_diff), breaks = 0, colour = "grey30", lty = 2) +
+  # geom_label(data = rg_identifiers, aes(label = id), alpha = 0.5) +
+  scale_fill_gradient2(low = "#67001f", mid = "antiquewhite2", high = "#053061", midpoint = 0, breaks = c(-20, -10, 0, 10, 20), labels = c("-20", "-10", "0", "10", "≥20")) +
+  scale_x_continuous(breaks = seq(0.0, 1.0, 0.1), labels = c(0.0, "", 0.2, "", 0.4, "", 0.6, "", 0.8, "", 1.0), expand = c(0, 0)) +
+  scale_y_continuous(breaks = seq(-5, 30, 1), labels = c(-5, rep("", 4), 0, rep("", 4), 5, rep("", 4), 10, rep("", 4), 15, rep("", 4), 20, rep("", 4), 25, rep("", 4), 30), expand = c(0, 0)) +
+  labs(x = "Proportion of declining species recovered", y = "Growth rate", fill = "Change in\nindicator") +
+  theme(panel.background = element_rect(fill = '#053061'),
+        text = element_text(size = 20),
+        axis.text = element_text(size = 15),
+        legend.text = element_text(size = 15))
+
+## randomized approach
+
+prop_div <- seq(0, 1, by = 0.1)
+grow_div <- seq(-5, 15, by = 1)
+
+combinations <- expand.grid(prop_div, grow_div)
+
+# function to project indicator to future under randomized approach
+prop_grow <- function(comb) {
+  
+  pg_data <- lapply(1:nrow(comb), function(x) {
+    prop <- comb[x, 1]
+    grow <- comb[x, 2]
+    
+    # target species
+    samp_decl <- decl %>%
+      dplyr::sample_frac(size = prop) %>%
+      dplyr::mutate(change = grow) %>%
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>%
+      dplyr::mutate(year_proj = year_last + nyr)
+    
+    # non-target species
+    nsamp_decl <- decl %>%
+      dplyr::filter(!scientific_name %in% samp_decl$scientific_name) %>%
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>%
+      dplyr::mutate(year_proj = year_last + nyr)
+    
+    # increasing species (continue to grow)
+    incr <- incr %>%
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>%
+      dplyr::mutate(year_proj = year_last + nyr)
+    
+    # join species back together
+    prep_decl <- dplyr::bind_rows(samp_decl, nsamp_decl)
+    prep <- dplyr::bind_rows(prep_decl, incr)
+    
+    # calculate indicator
+    pg_ind_proj <- geomean(prep$ind_proj) * 100
+    pg_ind_proj_incr <- geomean(incr$ind_proj) * 100
+    pg_ind_proj_decl <- geomean(prep_decl$ind_proj) * 100
+    
+    # combine output data
+    pg_inds <-
+      data.frame(
+        prop = prop,
+        grow = grow,
+        pg_ind_curr = pg_ind_curr,
+        pg_ind_proj = pg_ind_proj,
+        pg_ind_proj_incr = pg_ind_proj_incr,
+        pg_ind_proj_decl = pg_ind_proj_decl
+      ) %>%
+      dplyr::mutate(pg_ind_diff = pg_ind_proj - pg_ind_curr)
+    
+  }) %>%
+    # collapse across combinations
+    dplyr::bind_rows(.)
+}
+
+# pg_mean <- replicate(100, prop_grow(comb = combinations), simplify = FALSE) %>% 
+#   dplyr::bind_rows(.) %>% 
+#   dplyr::group_by(prop, grow) %>% 
+#   dplyr::summarise(pg_ind_diff_mean = mean(pg_ind_diff),
+#                    pg_ind_proj_mean = mean(pg_ind_proj),
+#                    pg_ind_proj_incr_mean = mean(pg_ind_proj_incr),
+#                    pg_ind_proj_decl_mean = mean(pg_ind_proj_decl))
+# 
+# saveRDS(pg_mean, "data/pg_mean_100.rds")
+
+pg_mean <- readRDS("data/pg_mean_100.rds")
+
+# pg_identifiers <- data.frame(prop = c(0.5, 0.134, 0.3), grow = c(-0.36, 10, 7.17), z = NA, id = c("I", "II", "III"))
+
+pg_plot <- ggplot(data = pg_mean, aes(x = prop, y = grow)) +
+  metR::geom_contour_fill(aes(z = pg_ind_diff_mean), breaks = seq(-21, 21, by = 2)) +
+  geom_contour(aes(z = pg_ind_diff_mean), breaks = 0, colour = "grey30", lty = 2) +
+  # geom_label(data = pg_identifiers, aes(label = id), alpha = 0.5) +
+  scale_fill_gradient2(low = "#67001f", mid = "antiquewhite2", high = "#053061", midpoint = 0, breaks = c(-20, -10, 0, 10, 20), labels = c("-20", "-10", "0", "10", "≥20")) +
+  scale_x_continuous(breaks = seq(0.0, 1.0, 0.1), labels = c(0.0, "", 0.2, "", 0.4, "", 0.6, "", 0.8, "", 1.0), expand = c(0, 0)) +
+  scale_y_continuous(breaks = seq(-5, 30, 1), labels = c(-5, rep("", 4), 0, rep("", 4), 5, rep("", 4), 10, rep("", 4), 15, rep("", 4), 20, rep("", 4), 25, rep("", 4), 30), expand = c(0, 0)) +
+  labs(x = "Proportion of declining species recovered", y = "Growth rate", fill = "Change in\nindicator") +
+  theme(panel.background = element_rect(fill = '#053061'),
+        text = element_text(size = 20),
+        axis.text = element_text(size = 15),
+        legend.text = element_text(size = 15))
+
+# combined
+
+leg <- cowplot::get_legend(pg_plot)
+
+comb_plot <- cowplot::plot_grid(rg_plot + theme(legend.position = "none"), pg_plot + theme(legend.position = "none"), ncol = 2, labels = c("a", "b")) %>% 
+  cowplot::plot_grid(., leg, rel_widths = c(1, 0.13), ncol = 2)
+
+# # save: comb_plot
+# cowplot::save_plot("outputs/fig5_pathway.png", comb_plot, base_height = 4, base_width = 11, dpi = 300)
+
+hist_split <- ggplot(data = spp_chang, aes(x = change, fill = as.factor(pos))) +
+  geom_histogram(breaks = seq(-25.0001, 34.999, 1)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(10)) +
+  scale_fill_manual(values = c("darkorange3", "dodgerblue3")) +
+  labs(x = "Observed growth rate", y = "Number of species") +
+  annotate("text", label = "Declining", x = -15, y = 20, size = 6, colour = "darkorange3") +
+  annotate("text", label = "Increasing", x = 15, y = 20, size = 6, colour = "dodgerblue3") +
+  theme(legend.position = "none")
+
+# # save: hist_split
+# cowplot::save_plot("outputs/figs5_hist_split.png", hist_split, base_height = 4, base_width = 6, dpi = 300)
+
+```
+
+## Case-study informed target-seeking pathways ##
+
+```{r}
+
+# # join species classifications
+# # doesn't work for example data
+# spclass_g <- dplyr::left_join(spp_chang, spclass, by = c("scientific_name" = "Species"))
+
+# create classifications for example data
+spclass_g <- dplyr::arrange(spp_chang, change) %>% 
+  dplyr::mutate(Classification = c(rep(NA, 3), "Targeted", rep(NA, 2), "Spotlight", rep(NA, 3), "Targeted", rep(NA, 10), rep("Landscape", 3), rep(NA, 2), rep("Landscape", 2), rep(NA, 2), rep("Landscape", 3), rep(NA, 100)))
+
+table(spclass_g$Classification)
+
+# # doesn't work for example data
+# dplyr::left_join(decl, spclass, by = c("scientific_name" = "Species"))
+
+# declining species
+decl_g <- dplyr::left_join(decl, dplyr::select(spclass_g, scientific_name, Classification), by = "scientific_name") %>% 
+  dplyr::mutate(Classification = ifelse(is.na(Classification), "Landscape", Classification)) %>% 
+  dplyr::mutate(Classification = dplyr::recode(Classification, Spotlight = "Targeted"))
+
+table(decl_g$Classification)
+
+# current index value
+pg_ind_curr <- geomean(spp_chang$ind_last) * 100
+
+prop_div_l <- seq(0, 1, by = 0.1) # proportion of landscape species to change, 0% to 100%
+n_div_t <- 3 # maximum number of target species
+grow_div_l <- seq(-5, 10, by = 1) # growth rates for landscape species, -5 to +10
+grow_div_t <- seq(-5, 30, by = 1) # growth rates for target species, -5 to +30
+
+# combinations of proportions (landscape) and numbers (targeted) with growth rates
+combinations_case <- expand.grid(prop_div_l, n_div_t, grow_div_l, grow_div_t)
+
+prop_grow_case <- function(comb) {
+  
+  pg_data <- lapply(1:nrow(comb), function(x) {
+    
+    prop_l <- comb[x, 1] 
+    n_t <- comb[x, 2]
+    grow_l <- comb[x, 3]
+    grow_t <- comb[x, 4]
+    
+    # landscape interventions
+    spp_l <- decl_g %>% 
+      dplyr::filter(Classification == "Landscape") %>%
+      dplyr::sample_frac(size = prop_l) %>% 
+      dplyr::mutate(change = grow_l) %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+    
+    # targeted management
+    spp_t <- decl_g %>% 
+      dplyr::filter(Classification == "Targeted") %>% 
+      dplyr::sample_n(size = n_t) %>% 
+      dplyr::mutate(change = grow_t) %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+      
+    samp_decl <- dplyr::bind_rows(spp_l, spp_t)
+  
+    # non-target species
+    nsamp_decl <- decl_g %>% 
+      dplyr::filter(!scientific_name %in% samp_decl$scientific_name) %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+    
+    # increasing species (continue to grow)
+    incr <- incr %>% 
+      dplyr::mutate(ind_proj = ((change / 100) + 1) ^ (1 / (1 / nyr)) * ind_last) %>% 
+      dplyr::mutate(year_proj = year_last + nyr)
+  
+    # join species back together
+    prep_decl <- dplyr::bind_rows(samp_decl, nsamp_decl)
+    prep <- suppressWarnings(dplyr::bind_rows(prep_decl, incr)) # binding character and factor vector, coercing into character vector
+  
+    # calculate indicator
+    pg_ind_proj <- geomean(prep$ind_proj) * 100
+    pg_ind_proj_incr <- geomean(incr$ind_proj) * 100
+    pg_ind_proj_decl <- geomean(prep_decl$ind_proj) * 100
+    
+    # combine output data
+    pg_inds <- data.frame(prop_l = prop_l, n_t = n_t, grow_l = grow_l, grow_t = grow_t, pg_ind_curr = pg_ind_curr, pg_ind_proj = pg_ind_proj, pg_ind_proj_incr = pg_ind_proj_incr, pg_ind_proj_decl = pg_ind_proj_decl) %>% 
+      dplyr::mutate(pg_ind_diff = pg_ind_proj - pg_ind_curr)
+    
+  }) %>% 
+  # collapse across combinations
+  dplyr::bind_rows(.)
+}
+
+# caseg_mean <- replicate(100, prop_grow_case(comb = combinations_case), simplify = FALSE) %>% 
+#   dplyr::bind_rows(.) %>% 
+#   dplyr::group_by(prop_l, n_t, grow_l, grow_t) %>% 
+#   dplyr::summarise(pg_ind_diff_mean = mean(pg_ind_diff),
+#                    pg_ind_proj_mean = mean(pg_ind_proj),
+#                    pg_ind_proj_incr_mean = mean(pg_ind_proj_incr),
+#                    pg_ind_proj_decl_mean = mean(pg_ind_proj_decl)) %>% 
+#   dplyr::mutate(grow_diff = grow_t - grow_l)
+# 
+# saveRDS(caseg_mean, "data/caseg_mean_100.rds")
+
+caseg_mean <- readRDS("data/caseg_mean_100.rds")
+
+# function to create plot for fixed landscape species growth rate
+lt_plot <- function(df) {
+  
+  out <- ggplot(data = df, aes(x = prop_l, y = grow_t)) +
+    # contour fill
+    metR::geom_contour_fill(aes(z = pg_ind_diff_mean), breaks = seq(-21, 21, by = 2)) +
+    # contour line at 0
+    geom_contour(aes(z = pg_ind_diff_mean), breaks = 0, colour = "grey30", lty = 2) +
+    # fill colours
+    scale_fill_gradient2(low = "#67001f", mid = "antiquewhite2", high = "#053061", midpoint = 0, breaks = c(-20, -10, 0, 10, 20), labels = c("-20", "-10", "0", "10", "≥20")) +
+    # x scale
+    scale_x_continuous(breaks = seq(0.0, 1.0, 0.1), labels = c(0.0, "", 0.2, "", 0.4, "", 0.6, "", 0.8, "", 1.0), expand = c(0, 0), limits = c(0, 1)) +
+    # y scale
+    scale_y_continuous(breaks = seq(-5, 60, 5), expand = c(0, 0), limits = c(0, 30)) +
+    # labels
+    labs(x = "Proportion of landscape species recovered", y = "Targeted species growth rate", fill = "Change in\nindicator") +
+    # theme
+    theme(panel.background = element_rect(fill = '#053061'), # background colour
+          plot.title = element_text(hjust = 0.5)) # center plot title
+  
+}
+
+# landscape species growth rate = 0
+lt1 <- dplyr::filter(caseg_mean, grow_l == 0) %>% 
+  lt_plot(df = .) +
+  labs(title = "Landscape species growth rate = 0") +
+  coord_cartesian(clip = "off")
+
+# landscape species growth rate = 3
+lt2 <- dplyr::filter(caseg_mean, grow_l == 3) %>% 
+  lt_plot(df = .) +
+  labs(title = "Landscape species growth rate = 3")
+
+# function to create plot for fixed proportion of landscape species
+ltg_plot <- function(df) {
+  
+    out <- ggplot(data = df, aes(x = grow_l, y = grow_t)) +
+      # contour fill
+      metR::geom_contour_fill(aes(z = pg_ind_diff_mean), breaks = seq(-21, 21, by = 2)) +
+      # contour line at 0
+      geom_contour(aes(z = pg_ind_diff_mean), breaks = 0, colour = "grey30", lty = 2) +
+      # fill colours
+      scale_fill_gradient2(low = "#67001f", mid = "antiquewhite2", high = "#053061", midpoint = 0, breaks = c(-20, -10, 0, 10, 20), labels = c("-20", "-10", "0", "10", "≥20")) +
+      # y scale
+      scale_y_continuous(breaks = seq(-5, 60, 5), expand = c(0, 0), limits = c(0, 30)) +
+      # labels
+      labs(x = "Landscape species growth rate", y = "Targeted species growth rate", fill = "Change in\nindicator") +
+      # theme
+      theme(panel.background = element_rect(fill = '#053061'), # background colour
+            plot.title = element_text(hjust = 0.5)) # center plot title
+  
+}
+
+# proportion of landscape species recovered = 0.2
+ltg1 <- dplyr::filter(caseg_mean, prop_l == 0.2) %>% 
+  ltg_plot(df = .) +
+  scale_x_continuous(breaks = seq(-4, 10, 2), expand = c(0, 0), limits = c(-5, 10)) +
+  coord_cartesian(clip = "off") +
+  labs(title = "Proportion of landscape\nspecies recovered = 0.2")
+
+# proportion of landscape species recovered = 0.5
+ltg2 <- dplyr::filter(caseg_mean, prop_l == 0.5) %>% 
+  ltg_plot(df = .) +
+  scale_x_continuous(breaks = seq(-4, 10, 2), expand = c(0, 0), limits = c(-5, 10)) +
+  labs(title = "Proportion of landscape\nspecies recovered = 0.5")
+
+# get legend
+lt_leg <- cowplot::get_legend(lt1)
+
+# combine plots
+lt_multi <- cowplot::plot_grid(
+  cowplot::plot_grid(lt1 + theme(legend.position = "none"), lt2 + theme(legend.position = "none"), lt_leg, rel_widths = c(1, 1, 0.3), labels = c("a", "b", ""), nrow = 1),  
+  cowplot::plot_grid(ltg1 + theme(legend.position = "none"), ltg2 + theme(legend.position = "none"), lt_leg, rel_widths = c(1, 1, 0.3), labels = c("c", "d", ""), nrow = 1), nrow = 2)
+
+# # save: lt_multi
+# cowplot::save_plot("outputs/fig6_lt.png", lt_multi, base_height = 7, base_width = 10, dpi = 300)
 
 ```
 

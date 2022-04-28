@@ -28,5 +28,5 @@ Date/Publication: 2021-04-16 21:50:05 UTC
 Encoding: UTF-8
 Built: R 4.0.4; ; 2021-04-19 11:05:18 UTC; unix
 InstallAgent: packrat 0.6.0
-InstallSource: CRAN
+InstallSource: RSPM
 Hash: 375daf47b5970a62560496bb8c6b996e

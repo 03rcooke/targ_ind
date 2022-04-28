@@ -1,0 +1,130 @@
+Index,Species,Group,Action_Priority,Action_Type,Delivery_mechanism,Classification
+2,Aricia artaxerxes,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+4,Boloria selene,Butterflies,Urgent,General Habitat management,ELM,Landscape
+5,Coenonympha pamphilus,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+6,Cupido minimus,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+7,Erynnis tages,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+9,Hamearis lucina,Butterflies,Urgent,General Habitat management,ELM,Landscape
+10,Hipparchia semele,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+11,Lasiommata megera,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+12,Leptidea sinapis,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+13,Limenitis camilla,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+16,Melitaea cinxia,Butterflies,Urgent,General Habitat management,CSS,Landscape
+17,Plebejus argus,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+18,Pyrgus malvae,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+19,Satyrium w-album,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+20,Thecla betulae,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+21,Thymelicus acteon,Butterflies,Urgent,Survey or monitoring,NA,Landscape
+3,Anthus trivialis,Bird,Urgent,Research,NA,Landscape
+6,Branta bernicla subsp. bernicla,Bird,Urgent,Research,NA,Landscape
+11,Cuculus canorus,Bird,Urgent,Research,NA,Landscape
+12,Dendrocopos minor subsp. comminutus,Bird,Urgent,Species management ,NA,Landscape
+14,Emberiza citrinella,Bird,Urgent,Research,NA,Landscape
+15,Emberiza schoeniclus,Bird,Urgent,Survey and monitoring,ELM,Landscape
+16,Locustella luscinioides,Bird,Medium,General habitat management,NA,Landscape
+17,Lullula arborea,Bird,Urgent,General habitat management,ELM,Landscape
+18,Muscicapa striata,Bird,Urgent,Research,NA,Landscape
+19,Numenius arquata,Bird,Urgent,Research,NA,Landscape
+21,Passer domesticus,Bird,Urgent,Research,NA,Landscape
+22,Passer montanus,Bird,Urgent,General habitat management,ELM,Landscape
+23,Perdix perdix,Bird,Urgent,General habitat management,ELM,Landscape
+24,Phylloscopus sibilatrix,Bird,Urgent,General habitat management,ELM,Landscape
+25,Poecile palustris subsp. palustris/dresseri,Bird,Urgent,Research,NA,Landscape
+28,Turdus torquatus,Bird,Urgent,Research,NA,Landscape
+1,Lepus europaeus,Mammal,High,General habitat management,NELM,Landscape
+3,Pipistrellus pygmaeus,Mammal,High,Policy or legislation,NELM,Landscape
+4,Plecotus auritus,Mammal,High,General habitat management,NA,Landscape
+5,Rhinolophus ferrumequinum,Mammal,High,Survey and monitoring,NA,Landscape
+6,Rhinolophus hipposideros,Mammal,High,General habitat management,NA,Landscape
+1,Acronicta psi,Moth,Medium,Research,NA,Landscape
+2,Acronicta rumicis,Moth,Medium,Research,NA,Landscape
+3,Agrochola lychnidis,Moth,Medium,Research,NA,Landscape
+4,Allophyes oxyacanthae,Moth,Medium,Research,NA,Landscape
+5,Amphipoea oculea,Moth,Medium,Research,NA,Landscape
+6,Amphipyra tragopoginis,Moth,Medium,Research,NA,Landscape
+7,Apamea anceps,Moth,Medium,Research,NA,Landscape
+8,Apamea remissa,Moth,Medium,Research,NA,Landscape
+9,Aporophyla lutulenta,Moth,Medium,Research,NA,Landscape
+10,Arctia caja,Moth,Medium,Research,NA,Landscape
+11,Asteroscopus sphinx,Moth,Medium,Research,NA,Landscape
+12,Atethmia centrago,Moth,Medium,Research,NA,Landscape
+13,Athetis pallustris,Moth,Urgent,Survey or monitoring,NA,Landscape
+14,Brachylomia viminalis,Moth,Medium,Research,NA,Landscape
+15,Caradrina morpheus,Moth,Medium,Research,NA,Landscape
+16,Celaena haworthii,Moth,Medium,Research,NA,Landscape
+17,Chesias legatella,Moth,Medium,Research,NA,Landscape
+18,Chesias rufata,Moth,Medium,Research,NA,Landscape
+19,Chiasmia clathrata,Moth,Medium,Research,NA,Landscape
+21,Diarsia rubi,Moth,Medium,Research,NA,Landscape
+22,Diloba caeruleocephala,Moth,Medium,Research,NA,Landscape
+23,Ecliptopera silaceata,Moth,Medium,Research,NA,Landscape
+24,Ennomos erosaria,Moth,Medium,Research,NA,Landscape
+25,Ennomos fuscantaria,Moth,Medium,Research,NA,Landscape
+26,Ennomos quercinaria,Moth,Medium,Research,NA,Landscape
+27,Entephria caesiata,Moth,Medium,Research,NA,Landscape
+28,Epirrhoe galiata,Moth,Medium,Research,NA,Landscape
+29,Eugnorisma glareosa,Moth,Medium,Research,NA,Landscape
+30,Eulithis mellinata,Moth,Medium,Research,NA,Landscape
+32,Euxoa nigricans,Moth,Medium,Research,NA,Landscape
+33,Euxoa tritici,Moth,Medium,Research,NA,Landscape
+34,Graphiphora augur,Moth,Medium,Research,NA,Landscape
+35,Hemistola chrysoprasaria,Moth,Medium,Research,NA,Landscape
+36,Hepialus humuli,Moth,Medium,Research,NA,Landscape
+37,Hoplodrina blanda,Moth,Medium,Research,NA,Landscape
+38,Hydraecia micacea,Moth,Medium,Research,NA,Landscape
+42,Lycia hirtaria,Moth,Medium,Research,NA,Landscape
+43,Macaria wauaria,Moth,Medium,Research,NA,Landscape
+44,Malacosoma neustria,Moth,Medium,Research,NA,Landscape
+45,Melanchra persicariae,Moth,Medium,Research,NA,Landscape
+46,Melanchra pisi,Moth,Medium,Research,NA,Landscape
+47,Melanthia procellata,Moth,Medium,Research,NA,Landscape
+48,Mesoligia literosa,Moth,Medium,Research,NA,Landscape
+49,Mythimna comma,Moth,Medium,Research,NA,Landscape
+50,Orthonama vittata,Moth,Medium,Research,NA,Landscape
+51,Orthosia gracilis,Moth,Medium,Research,NA,Landscape
+52,Pelurga comitata,Moth,Medium,Research,NA,Landscape
+54,Rhizedra lutosa,Moth,High,Research,NA,Landscape
+55,Scopula marginepunctata,Moth,Medium,Research,NA,Landscape
+56,Scotopteryx chenopodiata,Moth,Medium,Research,NA,Landscape
+59,Spilosoma lubricipeda,Moth,Medium,Research,NA,Landscape
+60,Spilosoma luteum,Moth,Medium,Research,NA,Landscape
+61,Stilbia anomala,Moth,Medium,Research,NA,Landscape
+63,Tholera cespitis,Moth,Medium,Research,NA,Landscape
+64,Tholera decimalis,Moth,Medium,Research,NA,Landscape
+65,Timandra comae,Moth,Medium,Research,NA,Landscape
+66,Trichiura crataegi,Moth,Medium,Research,NA,Landscape
+67,Tyria jacobaeae,Moth,Medium,Research,NA,Landscape
+68,Watsonalla binaria,Moth,Medium,Research,NA,Landscape
+69,Xanthia gilvago,Moth,Medium,Research,NA,Landscape
+70,Xanthia icteritia,Moth,Medium,Research,NA,Landscape
+71,Xanthorhoe decoloraria,Moth,Medium,Research,NA,Landscape
+72,Xanthorhoe ferrugata,Moth,Medium,Research,NA,Landscape
+73,Xestia agathina,Moth,Medium,Research,NA,Landscape
+58,Spaelotis ravida,Moth,NA,Believed Extinct,NA,NA
+7,Burhinus oedicnemus,Bird,Urgent,Species management ,NA,Spotlight
+9,Circus cyaneus,Bird,Urgent,Species management ,NA,Spotlight
+10,Crex crex,Bird,Urgent,Species management ,Reintroduction,Spotlight
+13,Emberiza cirlus,Bird,Urgent,Species management ,Translocation,Spotlight
+20,Coleophora tricolor,Moth,High,Bespoke habitat management,NELMS,Spotlight
+31,Eustroma reticulatum,Moth,High,Bespoke habitat management,NELMS,Spotlight
+39,Hydraecia osseola subsp. hucherardi,Moth,High,Bespoke habitat management,NELMS,Spotlight
+1,Argynnis adippe,Butterflies,Urgent,Bespoke Habitat management,ELM,Targeted
+3,Boloria euphrosyne,Butterflies,Urgent,Bespoke Habitat management,ELM,Targeted
+8,Euphydryas aurinia,Butterflies,Urgent,Bespoke Habitat management,ELM,Targeted
+14,Maculinea arion,Butterflies,Urgent,Bespoke Habitat management,CSS,Targeted
+15,Melitaea athalia,Butterflies,Urgent,Bespoke Habitat management,ELM,Targeted
+1,Acrocephalus palustris,Bird,High,Species management ,NA,Targeted
+2,Anser albifrons subsp. albifrons,Bird,High,Species management ,International,Targeted
+4,Aythya marila,Bird,Medium,Sight protection or designation,Marine site designation,Targeted
+5,Botaurus stellaris,Bird,Urgent,Bespoke habitat management,NA,Targeted
+8,Caprimulgus europaeus,Bird,Urgent,General habitat management,ELM,Targeted
+20,Oriolus oriolus,Bird,High,Species management ,NA,Targeted
+26,Sterna dougallii,Bird,Urgent,Sight protection or designation,Site designation,Targeted
+27,Streptopelia turtur,Bird,Urgent,Species management ,Action plan,Targeted
+29,Vanellus vanellus,Bird,Urgent,Species management ,NA,Targeted
+40,Idaea dilutaria,Moth,High,General habitat management,NA,Targeted
+41,Idaea ochrata subsp. cantiata,Moth,High,General habitat management,NELMS,Targeted
+53,Pyropteron chrysidiformis,Moth,High,Bespoke habitat management,NELMS,Targeted
+57,Siona lineata,Moth,High,Bespoke habitat management,NELMS,Targeted
+62,Thalera fimbrialis,Moth,High,Bespoke habitat management,NELMS,Targeted
+2,Nyctalus noctula,Mammal,High,Policy or legislation,NA,Targeted
